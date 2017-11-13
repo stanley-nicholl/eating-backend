@@ -12,18 +12,23 @@ app.use(cors())
 app.use(bodyParser.json())
 app.disable('x-powered-by')
 
-const restaurants = './routes/restaurants'
-const users = './routes/users'
-app.use('/restaurants', restaurants)
-app.use('/users', users)
+const {
+  userRouter,
+  restaurantRouter,
+  listRouter
+} = require('./routes')
 
-const use((req, res, next) => {
+app.use('/restaurants', restaurantRouter)
+app.use('/lists', listRouter)
+app.use('/users', userRouter)
+
+app.use((req, res, next) => {
   const status = 404
-  const message = `Could not find matching route for: ${req.method}${req.path}`
+  const message = `Could not find matching route matching: ${req.method}${req.path}`
   next({ status, method })
 })
 
-const use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   if(!process.env.NODE_ENV) console.log(err)
   const status = err.status || 500
   const message = err.message || 'Something borked out hard'

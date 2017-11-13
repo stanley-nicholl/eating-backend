@@ -1,8 +1,10 @@
-
-exports.up = function(knex, Promise) {
-  
+exports.up = knex => {
+  return knex.schema.createTable('categories', table => {
+    table.increments()
+    table.string('name').notNullable().defaultTo('')
+  })
 };
 
-exports.down = function(knex, Promise) {
-  
+exports.down = knex => {
+  return knex.schema.dropTable('categories')
 };
