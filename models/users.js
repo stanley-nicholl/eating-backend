@@ -4,9 +4,9 @@ function getAllUser() {
   return knex('users')
 }
 
-function getUser(id) {
+function getUser(email) {
   return knex('users')
-    .where('users.id', id)
+    .where('users.email', email)
 }
 
 function createUser(body) {
@@ -15,16 +15,16 @@ function createUser(body) {
     .returning('*')
 }
 
-function updateUser(id, body) {
+function updateUser(email, body) {
   return knex('users')
-    .where('users.id', id)
+    .where('users.email', email)
     .update(body)
     .returning('*')
 }
 
-function destroyUser(id) {
+function destroyUser(email) {
   return knex('users')
-    .where('users.id', id)
+    .where('users.email', email)
     .del()
 }
 

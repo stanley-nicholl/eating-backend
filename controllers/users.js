@@ -12,7 +12,7 @@ function getAllUser(req, res, next) {
 }
 
 function getUser(req, res, next) {
-  userModel.getUser(req.params.id).then(user => {
+  userModel.getUser(req.params.email).then(user => {
     res.status(200).json({ user })
   })
 }
@@ -24,13 +24,13 @@ function createUser(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  userModel.updateUser(req.params.id, req.body).then(user => {
+  userModel.updateUser(req.params.email, req.body).then(user => {
     res.status(200).json({ user })
   })
 }
 
 function destroyUser(req, res, next) {
-  userModel.destroyUser(req.params.id).then(user => {
+  userModel.destroyUser(req.params.email).then(user => {
     res.status(200).json({ message: `User deleted`})
   })
 }
@@ -39,13 +39,26 @@ function destroyUser(req, res, next) {
 // VALIDATIONS VALIDATIONS VALIDATIONS VALIDATIONS VALIDATIONS VALIDATIONS
 
 function doesUserExist (req, res, next) {
-  const id = req.params.id
-  userModel.getUser(id).then(user => {
+  const email = req.params.email
+  userModel.getUser(email).then(user => {
     if(user.length){
       next()
     }else{
       const status = 404
-      const message = `User with id ${id}`
+      const message = `User with email ${email}`
+      next({ status, message })
+    }
+  })
+}
+
+function preventDuplicate (req, res, next) {
+  const email = req.body.email
+  userModel.getUser(email).then(user => {
+    if(!user.length){
+      next()
+    }else{
+      const status = 400
+      const message = `User with email ${email} already exists`
       next({ status, message })
     }
   })
@@ -72,5 +85,5 @@ function completeUser (req, res, next) {
 
 module.exports = {
   getUser, getAllUser, createUser, updateUser, destroyUser,
-  validations: { doesUserExist, cleanseUser, completeUser }
+  validations: { doesUserExist, preventDuplicate, cleanseUser, completeUser }
 }
