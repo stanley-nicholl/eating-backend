@@ -7,6 +7,7 @@ const completeFields = ['name', 'street_address', 'city', 'state', 'zip', 'cost'
 
 function getAllRest(req, res, next) {
   restModel.getAllRest().then(restaurants => {
+    console.log(restaurants);
     res.status(200).json({ restaurants })
   })
 }

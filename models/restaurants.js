@@ -2,6 +2,23 @@ const knex = require('../db/db')
 
 function getAllRest() {
   return knex('restaurants')
+    .then(restaurants => {
+      // console.log(restaurants);
+      const result = restaurants.map(restaurant => {
+        return knex('categories')
+        .select('categories.name')
+        .join('restaurant_category', 'categories.id', 'restaurant_category.category_id')
+        .where('restaurant_category.restaurant_id', restaurant.id)
+        .then(categories => {
+          restaurant.categories = categories
+          return restaurant
+        })
+      })
+      return Promise.all(result)
+
+    })
+
+
 }
 
 function getRest(id) {
