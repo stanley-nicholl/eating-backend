@@ -11,6 +11,8 @@ exports.up = knex => {
     table.string('cuisine').notNullable().defaultTo('')
     table.string('website')
     table.text('description').notNullable().defaultTo('')
+    table.float('latitude')
+    table.float('longitude')
     table.timestamps(true, true)
   })
 };

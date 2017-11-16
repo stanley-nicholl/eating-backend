@@ -3,7 +3,6 @@ const knex = require('../db/db')
 function getAllRest() {
   return knex('restaurants')
     .then(restaurants => {
-      // console.log(restaurants);
       const result = restaurants.map(restaurant => {
         return knex('categories')
         .select('categories.name')
@@ -15,15 +14,30 @@ function getAllRest() {
         })
       })
       return Promise.all(result)
-
     })
-
-
 }
 
 function getRest(id) {
   return knex('restaurants')
+    .select('*')
     .where('restaurants.id', id)
+    .then(restaurants => {
+      const result = restaurants.map(restaurant => {
+        return knex('categories')
+        .select('categories.name')
+        .join('restaurant_category', 'categories.id', 'restaurant_category.category_id')
+        .where('restaurant_category.restaurant_id', restaurant.id)
+        .then(categories => {
+          const temp= []
+          categories.forEach(cat => {
+            temp.push(cat.name)
+          })
+          restaurant.categories = temp
+          return restaurant
+        })
+      })
+      return Promise.all(result)
+    })
 }
 
 function createRest(body) {
