@@ -8,7 +8,7 @@ require('./db/db')
 
 if(!process.env.PORT) app.use(morgan('dev'))
 
-app.use(cors())
+app.use(cors('eatseattle.surge.sh'))
 app.use(bodyParser.json())
 app.disable('x-powered-by')
 
