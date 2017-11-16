@@ -68,7 +68,6 @@ function cleanseList (req, res, next) {
 }
 
 function completeList (req, res, next) {
-  console.log(req.body);
   const errors = completeFields.filter(field => !req.body[field])
     .map(value => `${value} is required`)
 

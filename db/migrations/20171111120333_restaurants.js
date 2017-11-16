@@ -6,7 +6,6 @@ exports.up = knex => {
     table.string('city').notNullable().defaultTo('')
     table.string('state').notNullable().defaultTo('')
     table.integer('zip').notNullable().defaultTo(0)
-    table.string('image', 280)
     table.string('neighborhood').notNullable().defaultTo('')
     table.string('cost').notNullable().defaultTo('')
     table.string('cuisine').notNullable().defaultTo('')
