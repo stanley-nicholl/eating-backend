@@ -21,8 +21,12 @@ function getList(req, res, next) {
 }
 
 function createList(req, res, next) {
-  listModel.createList(req.body).then(list => {
-    res.status(201).json({ list })
+  const result = req.body.lists.map(list =>{
+    return listModel.createList(list)
+  })
+  Promise.all(result)
+  .then(lists => {
+    res.status(201).json({ lists })
   })
 }
 

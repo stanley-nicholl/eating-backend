@@ -16,6 +16,8 @@ function createUser(body) {
 }
 
 function updateUser(email, body) {
+  console.log(email);
+  console.log(body);
   return knex('users')
     .where('users.email', email)
     .update(body)

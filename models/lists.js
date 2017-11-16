@@ -5,14 +5,15 @@ function getAllLists() {
 }
 
 function getList(id) {
-  return knex('lists')
-    .where('lists.id', id)
+  return knex('lists').select('*', 'lists.id AS list_id')
+    .join('restaurants', 'restaurants.id', 'lists.restaurant_id')
+    .where('lists.user_id', id)
 }
 
 function createList(body) {
   return knex('lists')
-    .insert(body)
-    .returning('*')
+   .insert(body)
+   .returning('*')
 }
 
 function updateList(id, body) {

@@ -6,6 +6,7 @@ exports.up = knex => {
     table.boolean('completed').notNullable().defaultTo(0)
     table.date('date_completed')
     table.boolean('recommend')
+    table.string('plates_eaten')
     table.string('comment', 280)
     table.timestamps(true, true)
   })
